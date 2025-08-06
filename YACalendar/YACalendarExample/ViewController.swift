@@ -65,7 +65,7 @@ class ViewController: UIViewController {
         calendarView.grid.scrollDirection = settings.scrollDirection
         calendarView.selectionType = settings.selectionType
         calendarView.grid.isWeekViewEnabled = settings.isWeekViewEnabled
-        
+        calendarView.maxRangeSelectionDays = 15
         if #available(iOS 13.0, *) {
             yearBarButton.image = (viewType == .month || viewType == .week) ? UIImage(systemName: "chevron.left") : nil
         }

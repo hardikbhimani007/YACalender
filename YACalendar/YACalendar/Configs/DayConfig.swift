@@ -23,9 +23,9 @@ public class DayConfig {
         case (_, .selected): return .white
         case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return .white
         case (_, .disabled): return UIColor(displayP3Red: 151 / 255, green: 151 / 255, blue: 151 / 255, alpha: 1)
-        case (_, .inRange): return .black
-        case (.today, _): return .black
-        case (.none, _): return .black
+        case (_, .inRange): return .white
+        case (.today, _): return .white
+        case (.none, _): return .white
         default: return UIColor(displayP3Red: 188 / 255, green: 188 / 255, blue: 188 / 255, alpha: 1)
         }
     }
@@ -33,8 +33,8 @@ public class DayConfig {
     public func indicatorColor(for state: DayState, indicator: DayIndicator) -> UIColor {
         switch (state, indicator) {
         case (_, .selected): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
-        case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return .black
-        case (_, .inRange): return UIColor.black.withAlphaComponent(0.15)
+        case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
+        case (_, .inRange): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 0.20)
         default: return .clear
         }
     }
