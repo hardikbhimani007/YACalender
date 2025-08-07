@@ -11,8 +11,8 @@ import UIKit
 class CalendarSettings {
     var gridType: CalendarType = .threeOnFour
     var scrollDirection: ScrollDirection = .horizonal
-    var startDate = Calendar.current.date(byAdding: .year, value: -1, to: Date())!
-    var endDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
+    var startDate = Date()
+    var endDate = Calendar.current.date(byAdding: .year, value: 3, to: Date())!
     var isPagingEnabled: Bool = false
     var showDaysOut: Bool = true
     var selectionType: SelectionType = .one
@@ -111,6 +111,7 @@ extension SelectionType {
         case .one: return 0
         case .many: return 1
         case .range: return 2
+        case .weeklyRange: return 3
         }
     }
 }

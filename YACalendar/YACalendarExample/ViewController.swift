@@ -62,46 +62,47 @@ class ViewController: UIViewController {
     }
     
     private func applySettings() {
-        calendarView.grid.scrollDirection = settings.scrollDirection
-        calendarView.selectionType = settings.selectionType
-        calendarView.grid.isWeekViewEnabled = settings.isWeekViewEnabled
-        calendarView.maxRangeSelectionDays = 15
+        calendarView.grid.scrollDirection = .vertical
+        calendarView.selectionType = .weeklyRange
+        calendarView.grid.isWeekViewEnabled = false
+//        calendarView.currentDate = Calendar.current.date(byAdding: .day, value: 3, to: Date())!
+        calendarView.maxRangeSelectionDays = 50
         if #available(iOS 13.0, *) {
             yearBarButton.image = (viewType == .month || viewType == .week) ? UIImage(systemName: "chevron.left") : nil
         }
         
-        switch viewType {
-        case .week:
-            calendarView.grid.scrollDirection = .horizonal
-            calendarView.grid.calendarType = .week
-            calendarView.isPagingEnabled = true
-            calendarView.config.month.showDaysOut = false
-            calendarView.config.month.showTitle = false
-            calendarView.config.daySymbols.separatorColor = .clear
+//        switch viewType {
+//        case .week:
+//            calendarView.grid.scrollDirection = .horizonal
+//            calendarView.grid.calendarType = .week
+//            calendarView.isPagingEnabled = true
+//            calendarView.config.month.showDaysOut = false
+//            calendarView.config.month.showTitle = false
+//            calendarView.config.daySymbols.separatorColor = .clear
 
-        case .month:
+//        case .month:
             calendarView.grid.calendarType = .oneOnOne
             calendarView.config.month.showTitle = true
             calendarView.isPagingEnabled = settings.isPagingEnabled
-            calendarView.config.month.showDaysOut = settings.showDaysOut
+            calendarView.config.month.showDaysOut = false
 
             let formetter = DateFormatter()
-            formetter.dateFormat = "MMMM"
+            formetter.dateFormat = "MMMM, yyyy"
             calendarView.config.monthTitle.formatter = formetter
             calendarView.config.monthTitle.showSeparator = true
             calendarView.config.daySymbols.separatorColor = UIColor(displayP3Red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1.0)
 
-        case .year:
-            calendarView.config.month.showTitle = true
-            calendarView.grid.calendarType = settings.gridType
-            calendarView.isPagingEnabled = settings.isPagingEnabled
-            calendarView.config.month.showDaysOut = settings.showDaysOut
-
-            let formetter = DateFormatter()
-            formetter.dateFormat = settings.gridType == .threeOnFour ? "MMM" : "MMMM"
-            calendarView.config.monthTitle.formatter = formetter
-            calendarView.config.monthTitle.showSeparator = false
-        }
+//        case .year:
+//            calendarView.config.month.showTitle = true
+//            calendarView.grid.calendarType = settings.gridType
+//            calendarView.isPagingEnabled = settings.isPagingEnabled
+//            calendarView.config.month.showDaysOut = settings.showDaysOut
+//
+//            let formetter = DateFormatter()
+//            formetter.dateFormat = settings.gridType == .threeOnFour ? "MMM" : "MMMM"
+//            calendarView.config.monthTitle.formatter = formetter
+//            calendarView.config.monthTitle.showSeparator = false
+//        }
         updateCalendarSize()
         
         if calendarView.data == nil {

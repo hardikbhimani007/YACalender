@@ -49,33 +49,43 @@ public final class DayView: UIView {
         if day.state == .today || day.indicator != .none {
             let view = UIView()
             let inset = config.indicatorInset(for: calendarType)
-            view.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: bounds.inset(by: inset).height,
-                height: bounds.inset(by: inset).height
-            )
-            view.center = CGPoint(x: bounds.midX, y: bounds.midY)
+            view.frame = bounds.inset(by: inset)
             view.layer.cornerRadius = view.frame.height / 2
             view.tag = dayIndicatorViewTag
             view.backgroundColor = config.indicatorColor(for: day.state, indicator: day.indicator)
+            view.layer.borderColor = config.borderColor(for: day.state, indicator: day.indicator)?.cgColor
+            view.layer.borderWidth = config.borderWidth(for: day.state, indicator: day.indicator)
             insertSubview(view, at: 0)
-
+            
             switch (day.state, day.indicator) {
-            case (_, .startRangeFilled), (_, .endRange):
+            case (_, .startRangeFilled):
+                // For start date, extend background to the right
                 let backView = UIView()
                 backView.frame = CGRect(
-                    x: day.indicator == .endRange ? -calendarType.distanceBetweenDays / 2 : bounds.width / 2,
+                    x: bounds.width / 2,
                     y: inset.top,
                     width: (bounds.width / 2) + calendarType.distanceBetweenDays / 2,
                     height: bounds.height - (inset.top + inset.bottom)
                 )
                 backView.tag = dayIndicatorViewTag
-                backView.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+                backView.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
                 insertSubview(backView, at: 1)
-                break
+                
+            case (_, .endRange):
+                // For end date, extend background to the left
+                let backView = UIView()
+                backView.frame = CGRect(
+                    x: -calendarType.distanceBetweenDays / 2,
+                    y: inset.top,
+                    width: (bounds.width / 2) + calendarType.distanceBetweenDays / 2,
+                    height: bounds.height - (inset.top + inset.bottom)
+                )
+                backView.tag = dayIndicatorViewTag
+                backView.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
+                insertSubview(backView, at: 1)
                 
             case (_, .inRange):
+                // For dates in between, fill the entire width including gaps
                 view.frame = CGRect(
                     x: -calendarType.distanceBetweenDays / 2,
                     y: inset.top,
@@ -83,23 +93,81 @@ public final class DayView: UIView {
                     height: bounds.height - (inset.top + inset.bottom)
                 )
                 view.layer.cornerRadius = 0
-                break
+                view.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
                 
             case (_, .disabled):
                 guard let disableLayer = config.disableIndicatorForm(rect: view.bounds) else {
                     break
                 }
-                
                 view.layer.addSublayer(disableLayer)
-                break
-                
-            case (.today, _):
-                view.layer.borderWidth = 1
-                view.layer.borderColor = UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0).cgColor
-                break
                 
             default: break
             }
         }
+        
+        if day.isWeeklyStart {
+            // Extend background to the right
+            let view = UIView()
+            let inset = config.indicatorInset(for: calendarType)
+            view.frame = bounds.inset(by: inset)
+            view.layer.cornerRadius = view.frame.height / 2
+            view.tag = dayIndicatorViewTag
+            view.backgroundColor = config.indicatorColor(for: day.state, indicator: .startRange)
+            insertSubview(view, at: 0)
+
+            let extensionView = UIView()
+            extensionView.frame = CGRect(
+                x: bounds.width / 2,
+                y: inset.top,
+                width: (bounds.width / 2) + calendarType.distanceBetweenDays / 2,
+                height: bounds.height - (inset.top + inset.bottom)
+            )
+            extensionView.tag = dayIndicatorViewTag
+            extensionView.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
+            insertSubview(extensionView, at: 1)
+
+        } else if day.isWeeklyEnd {
+            let view = UIView()
+            let inset = config.indicatorInset(for: calendarType)
+            view.frame = bounds.inset(by: inset)
+            view.layer.cornerRadius = view.frame.height / 2
+            view.tag = dayIndicatorViewTag
+            view.backgroundColor = config.indicatorColor(for: day.state, indicator: .endRange)
+            insertSubview(view, at: 0)
+
+        } else if day.isInWeeklyRange {
+            let view = UIView()
+            view.frame = CGRect(
+                x: -calendarType.distanceBetweenDays / 2,
+                y: config.indicatorInset(for: calendarType).top,
+                width: bounds.width + calendarType.distanceBetweenDays,
+                height: bounds.height - config.indicatorInset(for: calendarType).top - config.indicatorInset(for: calendarType).bottom
+            )
+            view.layer.cornerRadius = 0
+            view.tag = dayIndicatorViewTag
+            view.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
+            insertSubview(view, at: 0)
+        }
+
+
+//        if day.isWeeklyStart || day.isWeeklyEnd {
+//            let view = UIView()
+//            view.frame = bounds.inset(by: config.indicatorInset(for: calendarType))
+//            view.layer.cornerRadius = view.frame.height / 2
+//            view.tag = dayIndicatorViewTag
+//            view.backgroundColor = day.isWeeklyStart
+//                ? config.indicatorColor(for: day.state, indicator: .startRange) // Or use a separate `weeklyStartColor`
+//                : config.indicatorColor(for: day.state, indicator: .endRange)
+//            insertSubview(view, at: 0)
+//
+//        } else if day.isInWeeklyRange {
+//            let view = UIView()
+//            view.frame = bounds
+//            view.tag = dayIndicatorViewTag
+//            view.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
+//            view.layer.borderColor = config.borderColor(for: day.state, indicator: .inRange)?.cgColor
+//            view.layer.borderWidth = config.borderWidth(for: day.state, indicator: .inRange)
+//            insertSubview(view, at: 0)
+//        }
     }
 }

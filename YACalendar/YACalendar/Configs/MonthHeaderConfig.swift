@@ -10,7 +10,7 @@ import UIKit
 
 public class MonthHeaderConfig {
     
-    public var textColor: UIColor = .black
+    public var textColor: UIColor = .white
     public var currentTextColor: UIColor = UIColor(displayP3Red: 255 / 255, green: 99 / 255, blue: 0 / 255, alpha: 1.0)
     public var textAlignment: NSTextAlignment = .left
     public var showSeparator: Bool = false
@@ -18,7 +18,7 @@ public class MonthHeaderConfig {
 
     public var formatter: DateFormatter = {
         let formetter = DateFormatter()
-        formetter.dateFormat = "MMMM"
+        formetter.dateFormat = "MMMM, yyyy"
         return formetter
     }()
 

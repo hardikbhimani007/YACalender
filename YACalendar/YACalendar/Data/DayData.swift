@@ -21,6 +21,10 @@ final class DayData {
     
     private(set) var state: DayState
     private(set) var indicator: DayIndicator
+    
+    public var isWeeklyStart: Bool = false
+    public var isWeeklyEnd: Bool = false
+    public var isInWeeklyRange: Bool = false
 
     init(date: Date, inFuture: Bool, state: DayState, indicator: DayIndicator) {
         self.date = date
@@ -55,5 +59,17 @@ final class DayData {
     
     func resetIndicator() {
         indicator = .none
+    }
+    
+    func setInWeeklyRange() {
+        self.indicator = .none
+        self.isInWeeklyRange = true
+    }
+
+    public func resetWeeklyIndicators() {
+        self.indicator = .none
+        isWeeklyStart = false
+        isWeeklyEnd = false
+        isInWeeklyRange = false
     }
 }

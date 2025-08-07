@@ -9,5 +9,5 @@
 import Foundation
 
 public enum SelectionType {
-    case one, many, range
+    case one, many, range, weeklyRange
 }

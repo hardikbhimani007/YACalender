@@ -39,6 +39,18 @@ public class DayConfig {
         }
     }
     
+    
+    public func borderColor(for state: DayState, indicator: DayIndicator) -> UIColor? {
+        switch (state, indicator) {
+        case (.today, _): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
+        default: return nil
+        }
+    }
+
+    public func borderWidth(for state: DayState, indicator: DayIndicator) -> CGFloat {
+        return 0
+    }
+
     public func eventIndicatorColor(inFuture: Bool) -> UIColor {
         return inFuture ? UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0) :
             UIColor(displayP3Red: 188 / 255, green: 188 / 255, blue: 188 / 255, alpha: 1)
