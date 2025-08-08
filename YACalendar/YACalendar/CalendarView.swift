@@ -119,9 +119,9 @@ public class CalendarView: UIView {
                     // Make sure we select the current date (today) as start
                     selectRange(with: today, endDate: endDate)
                     // Pass the next date after start and before end
-                    let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
-                    let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
-                    calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
+//                    let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
+//                    let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                    calendarDelegate?.didSelectRange?(today, endDate: endDate)
 //                    calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
                 }
 
@@ -129,9 +129,9 @@ public class CalendarView: UIView {
                 guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) else { break }
                 // Make sure we select the current week starting from today
                 selectWeeklyRange(from: today, to: endDate)
-                let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
-                let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
-                calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
+//                let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
+//                let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                calendarDelegate?.didSelectRange?(today, endDate: endDate)
 //                calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
 
             case .one:
@@ -542,9 +542,9 @@ public class CalendarView: UIView {
                         }
                         
                         // Pass the next date after start and before end
-                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startRangeDay.date)!
-                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
-                        calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
+//                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startRangeDay.date)!
+//                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                        calendarDelegate?.didSelectRange?(startRangeDay.date, endDate: endDate)
                         
                         // Show feedback if range was limited
                         if day.date != endDate {
@@ -696,9 +696,9 @@ public class CalendarView: UIView {
                         }
 
                         // Pass the next date after start and before end
-                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startDay.date)!
-                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
-                        calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
+//                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startDay.date)!
+//                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
+                        calendarDelegate?.didSelectRange?(startDay.date, endDate: selectedDate)
 
                     } else {
                         // Invalid selection → reset and start new range
