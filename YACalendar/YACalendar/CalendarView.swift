@@ -48,7 +48,7 @@ public class CalendarView: UIView {
 //            guard let data = data else { return }
 //            let calendar = Calendar.current
 //            let today = calendar.startOfDay(for: currentDate)
-//            
+//
 //            data.allDays.forEach { day in
 //                switch selectionType {
 //                case .one, .many, .range:
@@ -58,12 +58,12 @@ public class CalendarView: UIView {
 //                    } else {
 //                        day.resetIndicator()
 //                    }
-//                    
+//
 //                case .weeklyRange:
 //                    // For weekly selection, enable only same weekday for next 50 days
 //                    let todayWeekday = calendar.component(.weekday, from: today)
 //                    guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) else { return }
-//                    
+//
 //                    if day.date < today {
 //                        day.setDisabled()
 //                    } else {
@@ -112,18 +112,35 @@ public class CalendarView: UIView {
                 }
             }
 
-            // 🔽 Default selection logic
+            // Default selection logic - modified to properly select current date
             switch selectionType {
             case .range:
-                if let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: currentDate) {
-                    selectRange(with: currentDate, endDate: endDate)
-                    calendarDelegate?.didSelectRange?(currentDate, endDate: endDate)
+                if let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) {
+                    // Make sure we select the current date (today) as start
+                    selectRange(with: today, endDate: endDate)
+                    // Pass the next date after start and before end
+                    let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
+                    let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                    calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
+//                    calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
                 }
 
             case .weeklyRange:
-                guard let endDate = Calendar.current.date(byAdding: .day, value: maxRangeSelectionDays, to: currentDate) else { break }
-                selectWeeklyRange(from: currentDate, to: endDate)
-                calendarDelegate?.didSelectRange?(currentDate, endDate: endDate)
+                guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) else { break }
+                // Make sure we select the current week starting from today
+                selectWeeklyRange(from: today, to: endDate)
+                let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
+                let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
+//                calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
+
+            case .one:
+                // Select today for single selection mode
+                if let todayDay = data.day(with: today) {
+                    todayDay.select()
+                    let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
+                    calendarDelegate?.didSelectDate?(nextStartDate)
+                }
 
             default:
                 break
@@ -168,15 +185,49 @@ public class CalendarView: UIView {
     
     // MARK: - Public Methods
     
+//    public func scroll(to date: Date) {
+//        guard let data = data, let monthWithCurrentDate = data.monthData(with: date) else { return }
+//
+//        var origin: CGPoint
+//
+//        if grid.calendarType == .week {
+//            let monthOrigin = monthWithCurrentDate.element.rect.origin
+//            let weekOrigin = monthWithCurrentDate.element.weeks.first(where: {
+//                $0.days.contains(where: { data.calendar.isDate($0.date, inSameDayAs: date) })
+//            })?.rect.origin ?? .zero
+//
+//            origin = CGPoint(x: monthOrigin.x + weekOrigin.x, y: monthOrigin.y)
+//        } else {
+//            origin = grid.originForMonth(
+//                with: monthWithCurrentDate.offset,
+//                position: monthWithCurrentDate.element.gridPosition,
+//                data: data,
+//                yearNumber: monthWithCurrentDate.element.yearNumber,
+//                showTitle: config.month.showTitle,
+//                rectSize: scrollView.frame.size,
+//                isPortrait: isPortrait,
+//                showDaysOut: config.month.showDaysOut
+//            )
+//        }
+//
+//        if origin == .zero {
+//            origin.x += 1
+//        }
+//        scrollView.contentOffset = origin
+//    }
+    
     public func scroll(to date: Date) {
         guard let data = data, let monthWithCurrentDate = data.monthData(with: date) else { return }
+        
+        // Make sure we use the start of day for comparison
+        let startOfDay = data.calendar.startOfDay(for: date)
         
         var origin: CGPoint
         
         if grid.calendarType == .week {
             let monthOrigin = monthWithCurrentDate.element.rect.origin
             let weekOrigin = monthWithCurrentDate.element.weeks.first(where: {
-                $0.days.contains(where: { data.calendar.isDate($0.date, inSameDayAs: date) })
+                $0.days.contains(where: { data.calendar.isDate($0.date, inSameDayAs: startOfDay) })
             })?.rect.origin ?? .zero
             
             origin = CGPoint(x: monthOrigin.x + weekOrigin.x, y: monthOrigin.y)
@@ -490,7 +541,10 @@ public class CalendarView: UIView {
                             day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
                         }
                         
-                        calendarDelegate?.didSelectRange?(startRangeDay.date, endDate: endDate)
+                        // Pass the next date after start and before end
+                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startRangeDay.date)!
+                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                        calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
                         
                         // Show feedback if range was limited
                         if day.date != endDate {
@@ -641,7 +695,10 @@ public class CalendarView: UIView {
                             }
                         }
 
-                        calendarDelegate?.didSelectRange?(startDay.date, endDate: selectedDate)
+                        // Pass the next date after start and before end
+                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startDay.date)!
+                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
+                        calendarDelegate?.didSelectRange?(nextStartDate, endDate: nextEndDate)
 
                     } else {
                         // Invalid selection → reset and start new range
