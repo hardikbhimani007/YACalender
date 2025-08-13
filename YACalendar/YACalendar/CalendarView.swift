@@ -28,7 +28,7 @@ public class CalendarView: UIView {
     
     // MARK: - Properties
     
-    public var selectionType: SelectionType = .one
+    public var selectionType: SelectionType = .range
     public var config: Config = Config()
     public var currentDate: Date = Date()
     public var maxRangeSelectionDays: Int = 50
@@ -41,112 +41,20 @@ public class CalendarView: UIView {
         }
     }
     
-    public weak var calendarDelegate: CalendarViewDelegate?
+    public var initialStartDate: Date? {
+        didSet {
+            if let date = initialStartDate {
+                setupInitialSelection()
+            }
+        }
+    }
     
-//    public var data: CalendarData? {
-//        didSet {
-//            guard let data = data else { return }
-//            let calendar = Calendar.current
-//            let today = calendar.startOfDay(for: currentDate)
-//
-//            data.allDays.forEach { day in
-//                switch selectionType {
-//                case .one, .many, .range:
-//                    // For single/multiple/range selection, just disable past dates
-//                    if day.date < today {
-//                        day.setDisabled()
-//                    } else {
-//                        day.resetIndicator()
-//                    }
-//
-//                case .weeklyRange:
-//                    // For weekly selection, enable only same weekday for next 50 days
-//                    let todayWeekday = calendar.component(.weekday, from: today)
-//                    guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) else { return }
-//
-//                    if day.date < today {
-//                        day.setDisabled()
-//                    } else {
-//                        let dayWeekday = calendar.component(.weekday, from: day.date)
-//                        if dayWeekday == todayWeekday && day.date <= endDate {
-//                            day.resetIndicator()
-//                        } else {
-//                            day.setDisabled()
-//                        }
-//                    }
-//                }
-//            }
-//            redraw()
-//        }
-//    }
+    public weak var calendarDelegate: CalendarViewDelegate?
     
     public var data: CalendarData? {
         didSet {
             guard let data = data else { return }
-            let calendar = Calendar.current
-            let today = calendar.startOfDay(for: currentDate)
-
-            data.allDays.forEach { day in
-                switch selectionType {
-                case .one, .many, .range:
-                    if day.date < today {
-                        day.setDisabled()
-                    } else {
-                        day.resetIndicator()
-                    }
-
-                case .weeklyRange:
-                    let todayWeekday = calendar.component(.weekday, from: today)
-                    guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) else { return }
-
-                    if day.date < today {
-                        day.setDisabled()
-                    } else {
-                        let dayWeekday = calendar.component(.weekday, from: day.date)
-                        if dayWeekday == todayWeekday && day.date <= endDate {
-                            day.resetIndicator()
-                        } else {
-                            day.setDisabled()
-                        }
-                    }
-                }
-            }
-
-            // Default selection logic - modified to properly select current date
-            switch selectionType {
-            case .range:
-                if let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) {
-                    // Make sure we select the current date (today) as start
-                    selectRange(with: today, endDate: endDate)
-                    // Pass the next date after start and before end
-//                    let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
-//                    let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
-                    calendarDelegate?.didSelectRange?(today, endDate: endDate)
-//                    calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
-                }
-
-            case .weeklyRange:
-                guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: today) else { break }
-                // Make sure we select the current week starting from today
-                selectWeeklyRange(from: today, to: endDate)
-//                let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
-//                let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
-                calendarDelegate?.didSelectRange?(today, endDate: endDate)
-//                calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
-
-            case .one:
-                // Select today for single selection mode
-                if let todayDay = data.day(with: today) {
-                    todayDay.select()
-                    let nextStartDate = calendar.date(byAdding: .day, value: 1, to: today)!
-                    calendarDelegate?.didSelectDate?(nextStartDate)
-                }
-
-            default:
-                break
-            }
-
-            redraw()
+            setupInitialSelection()
         }
     }
 
@@ -185,6 +93,88 @@ public class CalendarView: UIView {
     
     // MARK: - Public Methods
     
+    public func setupInitialSelection() {
+        guard let data = data else { return }
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date()) // Always use today for enable/disable boundary
+        
+        // 1. First disable all dates before today
+        data.allDays.forEach { day in
+            if day.date < today {
+                day.setDisabled()
+            } else {
+                day.resetIndicator()
+            }
+        }
+        
+        // 2. Handle initial selection based on initialStartDate (if provided)
+        if let startDate = initialStartDate {
+            let startOfStartDate = calendar.startOfDay(for: startDate)
+            
+            // Only proceed if startDate is today or in future
+            guard startOfStartDate >= today else { return }
+            
+            switch selectionType {
+            case .range:
+                if let endDate = calendar.date(byAdding: .day, value: 10, to: startOfStartDate) {
+                    selectRange(with: startOfStartDate, endDate: endDate)
+                    calendarDelegate?.didSelectRange?(startOfStartDate, endDate: endDate)
+                }
+                
+            case .weeklyRange:
+                // Keep the original weekly range logic but start from initialStartDate
+                let startWeekday = calendar.component(.weekday, from: startOfStartDate)
+                guard let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: startOfStartDate) else { return }
+                
+                data.allDays.forEach { day in
+                    if day.date < today {
+                        day.setDisabled()
+                    } else {
+                        let dayWeekday = calendar.component(.weekday, from: day.date)
+                        if dayWeekday == startWeekday && day.date >= startOfStartDate && day.date <= endDate {
+                            day.resetIndicator()
+                        } else {
+                            day.setDisabled()
+                        }
+                    }
+                }
+                
+                selectWeeklyRange(from: startOfStartDate, to: endDate)
+                calendarDelegate?.didSelectRange?(startOfStartDate, endDate: endDate)
+                
+            case .one:
+                if let startDay = data.day(with: startOfStartDate) {
+                    startDay.select()
+                    calendarDelegate?.didSelectDate?(startOfStartDate)
+                }
+                
+            default:
+                break
+            }
+        }
+        
+        redraw()
+    }
+    
+    public func updateInitialRangeSelection(daysCount: Int) {
+        guard let startDate = initialStartDate, let data = data else { return }
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: startDate)
+        
+        if let endDate = calendar.date(byAdding: .day, value: daysCount, to: today) {
+            // Clear previous selection
+            data.allDays.forEach { day in
+                if day.canSelect {
+                    day.resetIndicator()
+                    day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+                }
+            }
+            
+            // Select new range
+            selectRange(with: today, endDate: endDate)
+            calendarDelegate?.didSelectRange?(today, endDate: endDate)
+        }
+    }
 //    public func scroll(to date: Date) {
 //        guard let data = data, let monthWithCurrentDate = data.monthData(with: date) else { return }
 //
@@ -636,18 +626,101 @@ public class CalendarView: UIView {
 //
 //                disablePastDates()
                 
+//            case .weeklyRange:
+//                let allDays = data.allDays
+//
+//                let calendar = data.calendar
+//                let selectedDate = day.date
+//
+//                // Find current start range day (if any)
+//                let currentStartDay = allDays.first(where: { $0.isWeeklyStart })
+//
+//                func weeklyDates(from startDate: Date, to endDate: Date) -> [Date] {
+//                    guard startDate <= endDate else { return [] }
+//
+//                    var result: [Date] = []
+//                    var current = startDate
+//                    while current <= endDate {
+//                        result.append(current)
+//                        current = calendar.date(byAdding: .day, value: 7, to: current)!
+//                    }
+//                    return result
+//                }
+//
+//                func clearAllWeeklySelections() {
+//                    for d in allDays where d.canSelect {
+//                        d.resetIndicator()
+//                        d.isWeeklyStart = false
+//                        d.isWeeklyEnd = false
+//                        d.isInWeeklyRange = false
+//                        d.view?.configure(with: config.day, day: d, calendarType: grid.calendarType)
+//                    }
+//                }
+//
+//                if let startDay = currentStartDay {
+//                    let daysBetween = calendar.dateComponents([.day], from: startDay.date, to: selectedDate).day ?? 0
+//
+//                    if calendar.isDate(startDay.date, inSameDayAs: selectedDate) {
+//                        // Same day tapped again, do nothing or reset
+//                        return
+//                    } else if selectedDate > startDay.date, daysBetween % 7 == 0 {
+//                        // Valid end date
+//                        clearAllWeeklySelections()
+//
+//                        let datesInRange = weeklyDates(from: startDay.date, to: selectedDate)
+//                        for date in datesInRange {
+//                            if let d = allDays.first(where: { calendar.isDate($0.date, inSameDayAs: date) }) {
+//                                if date == startDay.date {
+//                                    d.startRange()
+//                                    d.isWeeklyStart = true
+//                                } else if date == selectedDate {
+//                                    d.endRange()
+//                                    d.isWeeklyEnd = true
+//                                } else {
+//                                    d.setInWeeklyRange()
+//                                    d.isInWeeklyRange = true
+//                                }
+//
+//                                d.view?.configure(with: config.day, day: d, calendarType: grid.calendarType)
+//                            }
+//                        }
+//
+//                        // Pass the next date after start and before end
+////                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startDay.date)!
+////                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
+//                        calendarDelegate?.didSelectRange?(startDay.date, endDate: selectedDate)
+//
+//                    } else {
+//                        // Invalid selection → reset and start new range
+//                        clearAllWeeklySelections()
+//                        day.startRange()
+//                        day.isWeeklyStart = true
+//                        day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                    }
+//
+//                } else {
+//                    // No start yet → select start
+//                    day.startRange()
+//                    day.isWeeklyStart = true
+//                    day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                }
+
             case .weeklyRange:
                 let allDays = data.allDays
-
                 let calendar = data.calendar
                 let selectedDate = day.date
+                let today = calendar.startOfDay(for: Date())
 
-                // Find current start range day (if any)
+                // 1. First ensure we can't select dates before today
+                guard selectedDate >= today else { return }
+
+                // 2. Find current start and end range days (if any)
                 let currentStartDay = allDays.first(where: { $0.isWeeklyStart })
+                let currentEndDay = allDays.first(where: { $0.isWeeklyEnd })
 
                 func weeklyDates(from startDate: Date, to endDate: Date) -> [Date] {
                     guard startDate <= endDate else { return [] }
-
+                    
                     var result: [Date] = []
                     var current = startDate
                     while current <= endDate {
@@ -667,55 +740,60 @@ public class CalendarView: UIView {
                     }
                 }
 
-                if let startDay = currentStartDay {
-                    let daysBetween = calendar.dateComponents([.day], from: startDay.date, to: selectedDate).day ?? 0
-
-                    if calendar.isDate(startDay.date, inSameDayAs: selectedDate) {
-                        // Same day tapped again, do nothing or reset
-                        return
-                    } else if selectedDate > startDay.date, daysBetween % 7 == 0 {
-                        // Valid end date
+                // 3. If we have both start and end, check if tapping on start date
+                if let startDay = currentStartDay, let endDay = currentEndDay {
+                    if calendar.isDate(selectedDate, inSameDayAs: startDay.date) {
+                        // Tapped on current start date - allow changing it
                         clearAllWeeklySelections()
+                        day.startRange()
+                        day.isWeeklyStart = true
+                        day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+                        return
+                    }
+                }
 
-                        let datesInRange = weeklyDates(from: startDay.date, to: selectedDate)
+                // 4. Handle selection logic
+                if let startDay = currentStartDay {
+                    // We have a start date selected
+                    let daysFromStart = calendar.dateComponents([.day], from: startDay.date, to: selectedDate).day ?? 0
+                    
+                    if daysFromStart % 7 == 0 {
+                        // Valid weekly interval - set as new end date
+                        let maxEndDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: startDay.date)!
+                        let endDate = min(selectedDate, maxEndDate)
+                        
+                        clearAllWeeklySelections()
+                        
+                        let datesInRange = weeklyDates(from: startDay.date, to: endDate)
                         for date in datesInRange {
-                            if let d = allDays.first(where: { calendar.isDate($0.date, inSameDayAs: date) }) {
+                            if let d = allDays.first(where: { calendar.isDate($0.date, inSameDayAs: date) && $0.canSelect }) {
                                 if date == startDay.date {
                                     d.startRange()
                                     d.isWeeklyStart = true
-                                } else if date == selectedDate {
+                                } else if date == endDate {
                                     d.endRange()
                                     d.isWeeklyEnd = true
                                 } else {
                                     d.setInWeeklyRange()
                                     d.isInWeeklyRange = true
                                 }
-
                                 d.view?.configure(with: config.day, day: d, calendarType: grid.calendarType)
                             }
                         }
-
-                        // Pass the next date after start and before end
-//                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startDay.date)!
-//                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
-                        calendarDelegate?.didSelectRange?(startDay.date, endDate: selectedDate)
-
+                        calendarDelegate?.didSelectRange?(startDay.date, endDate: endDate)
                     } else {
-                        // Invalid selection → reset and start new range
+                        // Not a weekly interval - make this new start date
                         clearAllWeeklySelections()
                         day.startRange()
                         day.isWeeklyStart = true
                         day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
                     }
-
                 } else {
-                    // No start yet → select start
+                    // No selection yet - make this the start date
                     day.startRange()
                     day.isWeeklyStart = true
                     day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
                 }
-
-
             case .many:
                 day.select()
                 day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)

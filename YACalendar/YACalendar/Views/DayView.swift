@@ -96,11 +96,11 @@ public final class DayView: UIView {
                 view.backgroundColor = config.indicatorColor(for: day.state, indicator: .inRange)
                 
             case (_, .disabled):
-                guard let disableLayer = config.disableIndicatorForm(rect: view.bounds) else {
-                    break
-                }
-                view.layer.addSublayer(disableLayer)
-                
+//                guard let disableLayer = config.disableIndicatorForm(rect: view.bounds) else {
+//                    break
+//                }
+//                view.layer.addSublayer(disableLayer)
+                dayLabel.textColor = UIColor.white.withAlphaComponent(0.5)
             default: break
             }
         }

@@ -65,8 +65,9 @@ class ViewController: UIViewController {
         calendarView.grid.scrollDirection = .vertical
         calendarView.selectionType = .weeklyRange
         calendarView.grid.isWeekViewEnabled = false
-//        calendarView.currentDate = Calendar.current.date(byAdding: .day, value: 3, to: Date())!
+        calendarView.initialStartDate = Calendar.current.date(byAdding: .day, value: 14, to: Date())!
         calendarView.maxRangeSelectionDays = 50
+        calendarView.updateInitialRangeSelection(daysCount: 10)
         if #available(iOS 13.0, *) {
             yearBarButton.image = (viewType == .month || viewType == .week) ? UIImage(systemName: "chevron.left") : nil
         }
