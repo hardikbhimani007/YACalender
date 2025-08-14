@@ -4,6 +4,16 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GT-America-Standard-Black-Trial.otf</string>
+		<string>GT-America-Standard-Bold-Trial.otf</string>
+		<string>GT-America-Standard-Light-Trial.otf</string>
+		<string>GT-America-Standard-Medium-Trial.otf</string>
+		<string>GT-America-Standard-Regular-Trial.otf</string>
+		<string>GT-America-Standard-Ultra-Light-Trial.otf</string>
+		<string>GT-America-Standard-Thin-Trial.otf</string>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

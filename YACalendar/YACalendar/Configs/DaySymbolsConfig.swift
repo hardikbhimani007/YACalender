@@ -11,10 +11,10 @@ import UIKit
 public class DaySymbolsConfig {
     
     public var isEnabled: Bool = true
-    public var type: DaySymbols = .short
-    public var height: CGFloat = 30
+    public var type: DaySymbols = .veryShort
+    public var height: CGFloat = 40
     public var textColor: UIColor = UIColor(displayP3Red: 188 / 255, green: 188 / 255, blue: 188 / 255, alpha: 1.0)
-    public var font = UIFont.systemFont(ofSize: 12, weight: .regular)
+    public var font = FontWithSize(fontGTAmericaMedium, 13)//UIFont.systemFont(ofSize: 12, weight: .regular)
     public var textAlignment: NSTextAlignment = .center
-    public var separatorColor: UIColor = UIColor(displayP3Red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1.0)
+    public var separatorColor: UIColor = .white.withAlphaComponent(0.2)//UIColor(displayP3Red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1.0)
 }

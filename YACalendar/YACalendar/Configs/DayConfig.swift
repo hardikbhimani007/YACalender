@@ -20,8 +20,8 @@ public class DayConfig {
     
     public func textColor(for state: DayState, indicator: DayIndicator) -> UIColor {
         switch (state, indicator) {
-        case (_, .selected): return .white
-        case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return .white
+        case (_, .selected): return .black
+        case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return .black
         case (_, .disabled): return UIColor(displayP3Red: 151 / 255, green: 151 / 255, blue: 151 / 255, alpha: 1)
         case (_, .inRange): return .white
         case (.today, _): return .white
@@ -32,9 +32,9 @@ public class DayConfig {
     
     public func indicatorColor(for state: DayState, indicator: DayIndicator) -> UIColor {
         switch (state, indicator) {
-        case (_, .selected): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
-        case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
-        case (_, .inRange): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 0.20)
+        case (_, .selected): return .white//UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
+        case (_, .startRange), (_, .endRange), (_, .startRangeFilled): return .white//UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
+        case (_, .inRange): return .white.withAlphaComponent(0.2)//UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 0.20)
         default: return .clear
         }
     }
@@ -42,7 +42,7 @@ public class DayConfig {
     
     public func borderColor(for state: DayState, indicator: DayIndicator) -> UIColor? {
         switch (state, indicator) {
-        case (.today, _): return UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
+        case (.today, _): return .white//UIColor(displayP3Red: 247 / 255, green: 101 / 255, blue: 48 / 255, alpha: 1.0)
         default: return nil
         }
     }

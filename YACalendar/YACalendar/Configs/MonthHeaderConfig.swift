@@ -10,8 +10,8 @@ import UIKit
 
 public class MonthHeaderConfig {
     
-    public var textColor: UIColor = .white
-    public var currentTextColor: UIColor = UIColor(displayP3Red: 255 / 255, green: 99 / 255, blue: 0 / 255, alpha: 1.0)
+    public var textColor: UIColor = UIColor(displayP3Red: 117 / 255, green: 117 / 255, blue: 117 / 255, alpha: 1.0)
+    public var currentTextColor: UIColor = .white//UIColor(displayP3Red: 255 / 255, green: 99 / 255, blue: 0 / 255, alpha: 1.0)
     public var textAlignment: NSTextAlignment = .left
     public var showSeparator: Bool = false
     public var separatorColor: UIColor = UIColor(displayP3Red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 240 / 255)

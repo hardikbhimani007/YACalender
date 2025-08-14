@@ -43,7 +43,7 @@ public final class DayView: UIView {
         
         dayLabel.text = config.formetter.string(from: day.date)
         dayLabel.textAlignment = config.textAlignment
-        dayLabel.font = UIFont.systemFont(ofSize: config.fontSize(for: calendarType))
+        dayLabel.font = FontWithSize(fontGTAmericaMedium, 14)
         dayLabel.textColor = config.textColor(for: day.state, indicator: day.indicator)
         
         if day.state == .today || day.indicator != .none {

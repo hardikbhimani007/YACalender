@@ -32,7 +32,7 @@ public class CalendarView: UIView {
     public var config: Config = Config()
     public var currentDate: Date = Date()
     public var maxRangeSelectionDays: Int = 50
-    
+    private var selectedRangeStartDate: Date?
     public var isPagingEnabled: Bool {
         get {
             return scrollView.isPagingEnabled
@@ -483,88 +483,161 @@ public class CalendarView: UIView {
                 day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
                 calendarDelegate?.didSelectDate?(day.date)
                 
+//            case .range:
+//                let allDays = data.allDays
+//                
+//                if allDays.contains(where: { $0.indicator == .startRange || $0.indicator == .startRangeFilled }) == false {
+//                    // First selection - set start date
+//                    day.startRange()
+//                    day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                } else if allDays.contains(where: { $0.indicator == .endRange }) == false {
+//                    // Second selection - set end date
+//                    guard let startRangeDay = allDays.first(where: { $0.indicator == .startRange }) else { return }
+//                    
+//                    let components = calendar.dateComponents([.day], from: startRangeDay.date, to: day.date)
+//                    let daysDifference = abs(components.day ?? 0)
+//                    
+//                    if day.date <= startRangeDay.date {
+//                        // If selected date is before start date, reset and make this new start
+//                        startRangeDay.resetIndicator()
+//                        startRangeDay.view?.configure(with: config.day, day: startRangeDay, calendarType: grid.calendarType)
+//                        
+//                        day.startRange()
+//                        day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                    } else {
+//                        // Calculate the maximum allowed end date (start date + 50 days)
+//                        let maxEndDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: startRangeDay.date)!
+//                        let endDate = min(day.date, maxEndDate)
+//                        
+//                        // Find the day view for the end date
+//                        guard let endDay = allDays.first(where: { data.calendar.isDate($0.date, inSameDayAs: endDate) }) else { return }
+//                        
+//                        // Update the range visualization
+//                        startRangeDay.fillStartRange()
+//                        startRangeDay.view?.configure(with: config.day, day: startRangeDay, calendarType: grid.calendarType)
+//                        
+//                        endDay.endRange()
+//                        endDay.view?.configure(with: config.day, day: endDay, calendarType: grid.calendarType)
+//                        
+//                        // Select all days in between
+//                        let inRangeDays = allDays.filter {
+//                            $0.date > startRangeDay.date &&
+//                            $0.date < endDate &&
+//                            $0.canSelect
+//                        }
+//                        
+//                        inRangeDays.forEach { day in
+//                            day.setInRange()
+//                            day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                        }
+//                        
+//                        // Pass the next date after start and before end
+////                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startRangeDay.date)!
+////                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
+//                        calendarDelegate?.didSelectRange?(startRangeDay.date, endDate: endDate)
+//                        
+//                        // Show feedback if range was limited
+//                        if day.date != endDate {
+//                            UIView.animate(withDuration: 0.1, animations: {
+//                                endDay.view?.transform = CGAffineTransform(translationX: 10, y: 0)
+//                            }) { _ in
+//                                UIView.animate(withDuration: 0.1, animations: {
+//                                    endDay.view?.transform = CGAffineTransform(translationX: -10, y: 0)
+//                                }) { _ in
+//                                    UIView.animate(withDuration: 0.1) {
+//                                        endDay.view?.transform = .identity
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    // Reset all selectable days
+//                    allDays.forEach { day in
+//                        if day.canSelect {
+//                            day.resetIndicator()
+//                            day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                        }
+//                    }
+//
+//                    disablePastDates()
+//
+//                    // Start new range
+//                    day.startRange()
+//                    day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+//                }
             case .range:
                 let allDays = data.allDays
                 
-                if allDays.contains(where: { $0.indicator == .startRange || $0.indicator == .startRangeFilled }) == false {
-                    // First selection - set start date
+                if selectedRangeStartDate == nil {
+                    // Starting fresh — clear old selection
+                    allDays.forEach {
+                        if $0.canSelect {
+                            $0.resetIndicator()
+                            $0.view?.configure(with: config.day, day: $0, calendarType: grid.calendarType)
+                        }
+                    }
+                    disablePastDates()
+                    
+                    // First selection
+                    selectedRangeStartDate = day.date
                     day.startRange()
                     day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
-                } else if allDays.contains(where: { $0.indicator == .endRange }) == false {
-                    // Second selection - set end date
-                    guard let startRangeDay = allDays.first(where: { $0.indicator == .startRange }) else { return }
                     
-                    let components = calendar.dateComponents([.day], from: startRangeDay.date, to: day.date)
-                    let daysDifference = abs(components.day ?? 0)
+                } else {
+                    guard let startDate = selectedRangeStartDate else { return }
                     
-                    if day.date <= startRangeDay.date {
-                        // If selected date is before start date, reset and make this new start
-                        startRangeDay.resetIndicator()
-                        startRangeDay.view?.configure(with: config.day, day: startRangeDay, calendarType: grid.calendarType)
+                    if day.date <= startDate {
+                        // New start date — clear old range
+                        allDays.forEach {
+                            if $0.canSelect {
+                                $0.resetIndicator()
+                                $0.view?.configure(with: config.day, day: $0, calendarType: grid.calendarType)
+                            }
+                        }
+                        disablePastDates()
                         
+                        selectedRangeStartDate = day.date
                         day.startRange()
                         day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
+                        
                     } else {
-                        // Calculate the maximum allowed end date (start date + 50 days)
-                        let maxEndDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: startRangeDay.date)!
+                        // Calculate max allowed end date
+                        let maxEndDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: startDate)!
                         let endDate = min(day.date, maxEndDate)
                         
-                        // Find the day view for the end date
-                        guard let endDay = allDays.first(where: { data.calendar.isDate($0.date, inSameDayAs: endDate) }) else { return }
-                        
-                        // Update the range visualization
-                        startRangeDay.fillStartRange()
-                        startRangeDay.view?.configure(with: config.day, day: startRangeDay, calendarType: grid.calendarType)
-                        
-                        endDay.endRange()
-                        endDay.view?.configure(with: config.day, day: endDay, calendarType: grid.calendarType)
-                        
-                        // Select all days in between
-                        let inRangeDays = allDays.filter {
-                            $0.date > startRangeDay.date &&
-                            $0.date < endDate &&
-                            $0.canSelect
+                        // Update visuals
+                        allDays.forEach { d in
+                            if data.calendar.isDate(d.date, inSameDayAs: startDate) {
+                                d.fillStartRange()
+                            } else if data.calendar.isDate(d.date, inSameDayAs: endDate) {
+                                d.endRange()
+                            } else if d.date > startDate && d.date < endDate && d.canSelect {
+                                d.setInRange()
+                            } else if d.canSelect {
+                                d.resetIndicator()
+                            }
+                            d.view?.configure(with: config.day, day: d, calendarType: grid.calendarType)
                         }
                         
-                        inRangeDays.forEach { day in
-                            day.setInRange()
-                            day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
-                        }
+                        calendarDelegate?.didSelectRange?(startDate, endDate: endDate)
+                        selectedRangeStartDate = nil
                         
-                        // Pass the next date after start and before end
-//                        let nextStartDate = calendar.date(byAdding: .day, value: 1, to: startRangeDay.date)!
-//                        let nextEndDate = calendar.date(byAdding: .day, value: 1, to: endDate)!
-                        calendarDelegate?.didSelectRange?(startRangeDay.date, endDate: endDate)
-                        
-                        // Show feedback if range was limited
+                        // Feedback if max reached
                         if day.date != endDate {
                             UIView.animate(withDuration: 0.1, animations: {
-                                endDay.view?.transform = CGAffineTransform(translationX: 10, y: 0)
+                                day.view?.transform = CGAffineTransform(translationX: 10, y: 0)
                             }) { _ in
                                 UIView.animate(withDuration: 0.1, animations: {
-                                    endDay.view?.transform = CGAffineTransform(translationX: -10, y: 0)
+                                    day.view?.transform = CGAffineTransform(translationX: -10, y: 0)
                                 }) { _ in
                                     UIView.animate(withDuration: 0.1) {
-                                        endDay.view?.transform = .identity
+                                        day.view?.transform = .identity
                                     }
                                 }
                             }
                         }
                     }
-                } else {
-                    // Reset all selectable days
-                    allDays.forEach { day in
-                        if day.canSelect {
-                            day.resetIndicator()
-                            day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
-                        }
-                    }
-
-                    disablePastDates()
-
-                    // Start new range
-                    day.startRange()
-                    day.view?.configure(with: config.day, day: day, calendarType: grid.calendarType)
                 }
                 
 //            case .weekly:

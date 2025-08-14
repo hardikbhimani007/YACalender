@@ -63,7 +63,7 @@ class ViewController: UIViewController {
     
     private func applySettings() {
         calendarView.grid.scrollDirection = .vertical
-        calendarView.selectionType = .weeklyRange
+        calendarView.selectionType = .range
         calendarView.grid.isWeekViewEnabled = false
         calendarView.initialStartDate = Calendar.current.date(byAdding: .day, value: 14, to: Date())!
         calendarView.maxRangeSelectionDays = 50
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
             formetter.dateFormat = "MMMM, yyyy"
             calendarView.config.monthTitle.formatter = formetter
             calendarView.config.monthTitle.showSeparator = true
-            calendarView.config.daySymbols.separatorColor = UIColor(displayP3Red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1.0)
+        calendarView.config.daySymbols.separatorColor = .white.withAlphaComponent(0.2)
 
 //        case .year:
 //            calendarView.config.month.showTitle = true
