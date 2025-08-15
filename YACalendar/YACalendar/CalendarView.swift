@@ -32,6 +32,7 @@ public class CalendarView: UIView {
     public var config: Config = Config()
     public var currentDate: Date = Date()
     public var maxRangeSelectionDays: Int = 50
+    public var dayCount: Int = 5
     private var selectedRangeStartDate: Date?
     public var isPagingEnabled: Bool {
         get {
@@ -116,9 +117,16 @@ public class CalendarView: UIView {
             
             switch selectionType {
             case .range:
-                if let endDate = calendar.date(byAdding: .day, value: 10, to: startOfStartDate) {
-                    selectRange(with: startOfStartDate, endDate: endDate)
-                    calendarDelegate?.didSelectRange?(startOfStartDate, endDate: endDate)
+                if dayCount <= maxRangeSelectionDays {
+                    if let endDate = calendar.date(byAdding: .day, value: dayCount, to: startOfStartDate) {
+                        selectRange(with: startOfStartDate, endDate: endDate)
+                        calendarDelegate?.didSelectRange?(startOfStartDate, endDate: endDate)
+                    }
+                } else {
+                    if let endDate = calendar.date(byAdding: .day, value: maxRangeSelectionDays, to: startOfStartDate) {
+                        selectRange(with: startOfStartDate, endDate: endDate)
+                        calendarDelegate?.didSelectRange?(startOfStartDate, endDate: endDate)
+                    }
                 }
                 
             case .weeklyRange:
