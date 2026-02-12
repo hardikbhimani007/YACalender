@@ -97,7 +97,7 @@ public class CalendarView: UIView {
     public func setupInitialSelection() {
         guard let data = data else { return }
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date()) // Always use today for enable/disable boundary
+        let today = calendar.startOfDay(for: initialStartDate ?? Date()) // Always use today for enable/disable boundary
         
         // 1. First disable all dates before today
         data.allDays.forEach { day in
@@ -463,7 +463,7 @@ public class CalendarView: UIView {
             guard let day = selectedDay, day.canSelect else { return }
             
             let calendar = Calendar.current
-            let today = calendar.startOfDay(for: currentDate)
+            let today = calendar.startOfDay(for: initialStartDate ?? currentDate)
             let tappedDate = calendar.startOfDay(for: day.date)
             
             // Common function to disable past dates
