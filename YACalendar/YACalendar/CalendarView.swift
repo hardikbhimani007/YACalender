@@ -34,6 +34,7 @@ public class CalendarView: UIView {
     public var maxRangeSelectionDays: Int = 50
     public var dayCount: Int = 5
     private var selectedRangeStartDate: Date?
+    public var selectedDate: Date?
     public var isPagingEnabled: Bool {
         get {
             return scrollView.isPagingEnabled
@@ -151,9 +152,9 @@ public class CalendarView: UIView {
                 calendarDelegate?.didSelectRange?(startOfStartDate, endDate: endDate)
                 
             case .one:
-                if let startDay = data.day(with: startOfStartDate) {
+                if let startDay = data.day(with: selectedDate ?? startOfStartDate) {
                     startDay.select()
-                    calendarDelegate?.didSelectDate?(startOfStartDate)
+                    calendarDelegate?.didSelectDate?(selectedDate ?? startOfStartDate)
                 }
                 
             default:
